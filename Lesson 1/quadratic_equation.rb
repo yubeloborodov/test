@@ -4,22 +4,22 @@
 #   Если D < 0, то выводим дискриминант и сообщение "Корней нет"
 
 puts 'Введите коэффициент A:'
-A = gets.chomp.to_f
+a = gets.chomp.to_f
 puts 'Введите коэффициент B:'
-B = gets.chomp.to_f
+b = gets.chomp.to_f
 puts 'Введите коэффициент C:'
-C = gets.chomp.to_f
+c = gets.chomp.to_f
 
-D = B*B - 4*A*C
+d = b * b - 4 * a * c
 
-if D == 0
-  puts "Дискриминант = #{D}"
-  puts "1-й корень = #{-B/2/A}"
-elsif D > 0
-  puts "Дискриминант = #{D}"
-  puts "1-й корень = #{(-B-Math.sqrt(D))/2/A}"
-  puts "2-й корень = #{(-B+Math.sqrt(D))/2/A}"
-else D < 0
-  puts "Дискриминант = #{D}"
-  puts "Корней нет!"
+if d == 0
+  puts "Дискриминант = #{d}"
+  puts "1-й корень = #{-b / 2 / a}"
+elsif d > 0
+  puts "Дискриминант = #{d}"
+  puts "1-й корень = #{(-b - Math.sqrt(d)) / 2 / a}"
+  puts "2-й корень = #{(-b + Math.sqrt(d)) / 2 / a}"
+else
+  puts "Дискриминант = #{d}"
+  puts 'Корней нет!'
 end
