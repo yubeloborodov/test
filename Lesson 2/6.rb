@@ -25,8 +25,9 @@ total_sum = 0
 
 basket.each do |product, params|
   product_sum = params[:price_per_item] * params[:quantity]
-  puts "Общая стоймость товара: #{product} - #{sum}"
+  puts "Общая стоймость товара: #{product} - #{product_sum}"
   total_sum += product_sum
 end
 
 puts "Стоймость всех товаров в корзине: #{total_sum}"
+
