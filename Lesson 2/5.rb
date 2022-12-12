@@ -18,9 +18,9 @@ months.slice(0, m).each do |item|
   sum += item.values.first
 end
 
-is_leap_year = y % 4 == 0 || (y % 100 == 0 && y % 400 == 0)
+leap_year = y % 4 == 0 || (y % 100 == 0 && y % 400 == 0)
 
 sum += d
-sum += 1 if is_leap_year
+sum += 1 if leap_year
 
-puts sum
+puts "Сегодня #{sum}-й день #{y}-го года"
