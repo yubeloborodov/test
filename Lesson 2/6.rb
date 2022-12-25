@@ -30,4 +30,3 @@ basket.each do |product, params|
 end
 
 puts "Стоймость всех товаров в корзине: #{total_sum}"
-
