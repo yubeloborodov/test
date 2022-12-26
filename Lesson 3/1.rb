@@ -68,8 +68,9 @@ class Train
   def initialize(number, type, carriage_amount)
     @number = number
     @type = type
-    @carriage_amount = carriage_amount
     @speed = 0
+    @carriage_amount = carriage_amount
+    @station_position = nil
   end
 
   def increase_speed=(speed)
@@ -90,5 +91,14 @@ class Train
 
   def route(route)
     @route = route
+    @station_position = 0
+  end
+
+  def next_station
+    @route.stations[@station_position + 1] if @station_position < route.stations.length
+  end
+
+  def prev_station
+    @route.stations[@station_position - 1] if @station_position > 0
   end
 end
