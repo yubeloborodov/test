@@ -1,55 +1,3 @@
-# Класс Station (Станция):
-# 1.Имеет название, которое указывается при ее создании
-# 2.Может принимать поезда (по одному за раз)
-# 3.Может возвращать список всех поездов на станции, находящиеся в текущий момент
-# 4.Может возвращать список поездов на станции по типу (см. ниже): кол-во грузовых, пассажирских
-# 5.Может отправлять поезда (по одному за раз, при этом, поезд удаляется из списка поездов, находящихся на станции).
-
-class Station
-  attr_reader :trains
-
-  def initialize(name)
-    @name = name
-    @trains = []
-  end
-
-  def add_train(train)
-    @trains.push(train)
-  end
-
-  def drop_train(train)
-    @trains.delete(train)
-  end
-
-  def trains_by_type
-    [{ 'грузовой': 0, 'пассажирский': 4 }]
-  end
-end
-
-# Класс Route (Маршрут):
-# 1.Имеет начальную и конечную станцию, а также список промежуточных станций. Начальная и конечная станции указываютсся при создании маршрута, а промежуточные могут добавляться между ними.
-# 2.Может добавлять промежуточную станцию в список
-# 3.Может удалять промежуточную станцию из списка
-# 4.Может выводить список всех станций по-порядку от начальной до конечной
-
-class Route
-  attr_reader :stations
-
-  def initialize(start_station, end_station)
-    @start_station = start_station
-    @end_station = end_station
-    @stations = [@start_station, @end_station]
-  end
-
-  def add_station(station)
-    @stations.insert(1, station)
-  end
-
-  def drop_station(station)
-    @stations.delete(station) if station != @start_station || station != @end_station
-  end
-end
-
 # Класс Train (Поезд):
 # 1.Имеет номер (произвольная строка) и тип (грузовой, пассажирский) и количество вагонов, эти данные указываются при создании экземпляра класса
 # 2.Может набирать скорость
@@ -89,9 +37,20 @@ class Train
     @carriage_amount -= 1 if @speed == 0
   end
 
+  # Может принимать маршрут следования (объект класса Route)
   def route(route)
     @route = route
     @station_position = 0
+  end
+
+  def add_train_to_station_list
+    if (!@route) puts 'Cначала укажите маршрут следования'
+
+    @route.stations[@current_station_position].accept_train(self)
+  end
+
+  def remove_train_from_station_list
+    @current_station.send_train(self)
   end
 
   def next_station
