@@ -11,17 +11,18 @@
 # 10.Возвращать предыдущую станцию, текущую, следующую, на основе маршрута
 
 class Train
-  attr_reader :speed, :carriage_amount
+  attr_reader :speed, :carriage_amount, :type, :station_position
 
   def initialize(number, type, carriage_amount)
     @number = number
     @type = type
+    @route = nil
     @speed = 0
     @carriage_amount = carriage_amount
     @station_position = nil
   end
 
-  def increase_speed=(speed)
+  def increase_speed(speed)
     @speed = speed
   end
 
@@ -43,21 +44,42 @@ class Train
     @station_position = 0
   end
 
-  def add_train_to_station_list
-    if (!@route) puts 'Cначала укажите маршрут следования'
+  def go_to_next_station
+    return puts 'Сначала укажите маршрут следования' if @route.nil?
 
-    @route.stations[@current_station_position].accept_train(self)
+    @station_position += 1
+    @route.stations[@station_position] if @station_position < @route.stations.length
+
+    puts "Поезд на станции: #{@route.stations[@station_position]}"
   end
 
-  def remove_train_from_station_list
-    @current_station.send_train(self)
-  end
+  def go_to_prev_station
+    return puts 'Сначала укажите маршрут следования' if @route.nil?
 
-  def next_station
-    @route.stations[@station_position + 1] if @station_position < route.stations.length
+    @station_position -= 1
+    @route.stations[@station_position] if @station_position < @route.stations.length
+
+    puts "Поезд на станции: #{@route.stations[@station_position]}"
   end
 
   def prev_station
-    @route.stations[@station_position - 1] if @station_position > 0
+    return puts 'Сначала укажите маршрут следования' if @route.nil?
+
+    puts "Предыдущая станция: #{@route.stations[@station_position - 1]}"
+    @route.stations[@station_position - 1]
+  end
+
+  def current_station
+    return puts 'Сначала укажите маршрут следования' if @route.nil?
+
+    puts "Текущая станция: #{@route.stations[@station_position]}"
+    @route.stations[@station_position]
+  end
+
+  def next_station
+    return puts 'Сначала укажите маршрут следования' if @route.nil?
+
+    puts "Следующая станция: #{@route.stations[@station_position + 1]}"
+    @route.stations[@station_position + 1]
   end
 end

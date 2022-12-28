@@ -5,7 +5,7 @@
 # 5.Может отправлять поезда (по одному за раз, при этом, поезд удаляется из списка поездов, находящихся на станции).
 
 class Station
-  attr_reader :trains
+  attr_reader :name, :trains
 
   def initialize(name)
     @name = name
@@ -20,17 +20,17 @@ class Station
     @trains.delete(train)
   end
 
-  # Может возвращать список поездов на станции по типу (см. ниже): кол-во грузовых, пассажирских
   def trains_by_type
     # { 'грузовой': 0, 'пассажирский': 4 }
-    trains_by_type = {}
+    trains_by_type = Hash.new(0)
 
     @trains.each do |train|
       trains_by_type[train.type] += 1
     end
+
+    trains_by_type
   end
 
-  # Может отправлять поезда (по одному за раз, при этом, поезд удаляется из списка поездов, находящихся на станции).
   def send_train(train)
     @trains.delete(train)
   end
