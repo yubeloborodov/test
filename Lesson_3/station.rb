@@ -13,22 +13,19 @@ class Station
   end
 
   def add_train(train)
-    @trains << (train)
+    @trains << train
   end
 
   def drop_train(train)
     @trains.delete(train)
   end
 
-  def trains_by_type
-    # { 'грузовой': 0, 'пассажирский': 4 }
-    trains_by_type = Hash.new(0)
+  def count_trains_by_type(type)
+    @trains.count { |train| train.type == type }
+  end
 
-    @trains.each do |train|
-      trains_by_type[train.type] += 1
-    end
-
-    trains_by_type
+  def trains_by_type(type)
+    @trains.select { |train| train.type == type }
   end
 
   def send_train(train)

@@ -18,6 +18,6 @@ class Route
   end
 
   def drop_station(station)
-    @stations.delete(station) if station != @start_station || station != @end_station
+    @stations.delete(station) unless @stations.include?(station)
   end
 end

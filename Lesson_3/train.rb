@@ -47,39 +47,41 @@ class Train
   def go_to_next_station
     return puts 'Сначала укажите маршрут следования' if @route.nil?
 
-    @station_position += 1
-    @route.stations[@station_position] if @station_position < @route.stations.length
+    if @station_position < @route.stations.length - 1
+      @station_position += 1
 
-    puts "Поезд на станции: #{@route.stations[@station_position]}"
+      puts "Поезд на #{@station_position}-ой станции - #{@route.stations[@station_position]}"
+    else
+      puts "Поезд стоит на крайней станции - #{@route.stations[@station_position]}, движение вперед запрещено!"
+    end
   end
 
   def go_to_prev_station
     return puts 'Сначала укажите маршрут следования' if @route.nil?
 
-    @station_position -= 1
-    @route.stations[@station_position] if @station_position < @route.stations.length
-
-    puts "Поезд на станции: #{@route.stations[@station_position]}"
+    if @station_position < 0 || @station_position == @route.stations.length
+      puts 'Поезд cтоит на крайней станции, движение назад запрещено!'
+    else
+      @station_position -= 1
+      puts "Поезд на станции - #{@route.stations[@station_position]}"
+    end
   end
 
   def prev_station
     return puts 'Сначала укажите маршрут следования' if @route.nil?
 
-    puts "Предыдущая станция: #{@route.stations[@station_position - 1]}"
     @route.stations[@station_position - 1]
   end
 
   def current_station
     return puts 'Сначала укажите маршрут следования' if @route.nil?
 
-    puts "Текущая станция: #{@route.stations[@station_position]}"
     @route.stations[@station_position]
   end
 
   def next_station
     return puts 'Сначала укажите маршрут следования' if @route.nil?
 
-    puts "Следующая станция: #{@route.stations[@station_position + 1]}"
     @route.stations[@station_position + 1]
   end
 end
