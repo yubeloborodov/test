@@ -49,10 +49,9 @@ class Train
 
     if @station_position < @route.stations.length - 1
       @station_position += 1
-
-      puts "Поезд на #{@station_position}-ой станции - #{@route.stations[@station_position]}"
+      puts "Поезд на станции - #{@route.stations[@station_position]}"
     else
-      puts "Поезд стоит на крайней станции - #{@route.stations[@station_position]}, движение вперед запрещено!"
+      puts 'Поезд стоит на крайней станции, движение вперед запрещено!'
     end
   end
 
