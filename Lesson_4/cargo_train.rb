@@ -12,6 +12,5 @@ class CargoTrain < BaseTrain
 
   def delete_carriage
     super
-    puts 'Delete'
   end
 end

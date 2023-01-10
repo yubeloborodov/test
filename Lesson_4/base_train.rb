@@ -11,8 +11,6 @@
 # 10.Возвращать предыдущую станцию, текущую, следующую, на основе маршрута
 
 class BaseTrain
-  attr_reader :carriages, :number, :speed, :type, :station_position
-
   def initialize(number)
     @speed = 0
     @number = number
@@ -20,6 +18,10 @@ class BaseTrain
     @carriages = []
     @station_position = nil
   end
+
+  protected
+
+  attr_reader :carriages, :number, :speed, :type, :station_position
 
   def increase_speed(speed)
     @speed = speed
