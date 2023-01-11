@@ -17,7 +17,7 @@ class Route
     @stations.insert(1, station)
   end
 
-  def drop_station(station)
-    @stations.delete(station) unless @stations.include?(station)
+  def delete_station(station)
+    @stations.delete(station) if @stations.include?(station)
   end
 end

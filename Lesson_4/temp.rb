@@ -1,57 +1,62 @@
-class Car
-  attr_reader :current_rpm
+# class Car
+#   attr_reader :current_rpm
 
-  def initialize
-    @current_rpm = 0
-  end
+#   def initialize
+#     @current_rpm = 0
+#   end
 
-  def start_engine
-    start_engine! if engine_stopped?
-  end
+#   def start_engine
+#     start_engine! if engine_stopped?
+#   end
 
-  protected
+#   protected
 
-  attr_writer :current_rpm
+#   attr_writer :current_rpm
 
-  def initial_rpm
-    700
-  end
+#   def initial_rpm
+#     700
+#   end
 
-  def engine_stopped?
-    current_rpm.zero?
-  end
+#   def engine_stopped?
+#     current_rpm.zero?
+#   end
 
-  def start_engine!
-    self.current_rpm = INITIAL_RPM
-  end
-end
+#   def start_engine!
+#     self.current_rpm = INITIAL_RPM
+#   end
+# end
 
-class Truck < Car
-  def loading; end
+# class Truck < Car
+#   def loading; end
 
-  protected
+#   protected
 
-  def initial_rpm
-    500
-  end
-end
+#   def initial_rpm
+#     500
+#   end
+# end
 
-class SportCar < Car
-  def start_engine
-    super
-    puts 'Wroom!'
-  end
+# class SportCar < Car
+#   def start_engine
+#     super
+#     puts 'Wroom!'
+#   end
 
-  protected
+#   protected
 
-  def initial_rpm
-    1000
-  end
-end
+#   def initial_rpm
+#     1000
+#   end
+# end
 
-class Driver
-  def drive(car)
-    car.start_engine
-    puts 'Drive'
-  end
-end
+# class Driver
+#   def drive(car)
+#     car.start_engine
+#     puts 'Drive'
+#   end
+# end
+arr = %w[qqq asdf asdasd fgdsgsfg]
+
+arr.delete('asdasd') if arr.include?('asdasd')
+
+print arr
