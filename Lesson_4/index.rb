@@ -5,45 +5,60 @@ require './passenger_carriage'
 require './cargo_train'
 require './cargo_carriage'
 
-puts '----------- Станции -----------'
-
 $route = nil
-$list_of_stations = []
+$train = nil
+$stations = []
 
 def routes
   print "\n"
-  puts 'Введите цифру - выберите операцию:'
 
-  puts '
-  1 - Создать маршрут на основе начальной и конечной станции"
-  2 - Добавить новую станцию на маршрут
-  3 - Удалить станцию с маршрута
-  4 - Посмотреть список станций на маршруте'
-  print "\n"
+  loop do
+    puts 'Введите цифру - выберите операцию:'
 
-  operation = gets.chomp.to_i
+    puts '
+      1 - Создать маршрут на основе начальной и конечной станции"
+      2 - Добавить новую станцию на маршрут
+      3 - Удалить станцию с маршрута
+      4 - Посмотреть список станций на маршруте'
+    print "\n"
+    print 'Ожидаем цифру  >> '
 
-  case operation
-  when 1
-    if $list_of_stations.length >= 2
-      $route = Route.new($list_of_stations.first.name, $list_of_stations.last.name)
-      puts "Создан маршрут: #{$route}"
+    operation = gets.chomp.to_i
+
+    case operation
+    when 1
+      if $stations.length >= 2
+        $route = Route.new($stations.first.name, $stations.last.name)
+        puts "Создан маршрут: #{$route}"
+      else
+        puts 'Ошибка: Сначала необходимо создать станции'
+      end
+
+      break
+    when 2
+      puts 'Введите имя новой станции для добавления в маршрут'
+      s_name = gets.chomp.downcase
+      station = Station.new(s_name)
+      $route.add_station(station.name)
+
+      break
+    when 3
+      puts 'Введите имя станции для удаления'
+      name = gets.chomp.downcase
+      $route.delete_station(name)
+      break
+
+    when 4
+      if $route
+        puts "Список станции на маршруте #{$route.stations}"
+      else
+        puts 'Сначало надо создать маршрут'
+      end
+
+      break
     else
-      puts 'Ошибка: Сначала необходимо создать станции'
+      puts 'Неизвестная операция'
     end
-  when 2
-    puts 'Введите имя новой станции для добавления в маршрут'
-    s_name = gets.chomp.downcase
-    station = Station.new(s_name)
-    $route.add_station(station.name)
-  when 3
-    puts 'Введите имя станции для удаления'
-    name = gets.chomp.downcase
-    $route.delete_station(name)
-  when 4
-    puts "Список станции на маршруте #{$route.stations}"
-  else
-    puts 'Неизвестная операция'
   end
 end
 
@@ -53,26 +68,44 @@ def stations
   loop do
     puts 'Введите цифру - выберите операцию:'
     puts '
-    1 - Добавить начальную и конечную станции. Перечесление через запятую. Пример: "Первомайская, Молодежная"
-    2 - Просмотреть список станций
-    3 - Вернуться в общее меню'
+      1 - Добавить начальную и конечную станции. Перечесление через запятую. Пример: "Первомайская, Молодежная"
+      2 - Просмотреть список станций
+      3 - Просмотреть список поездов на станций
+      4 - Вернуться в общее меню'
     print "\n"
-    print '>> '
+    print 'Ожидаем цифру  >> '
 
     operation = gets.chomp.to_i
 
     case operation
     when 1
+      print 'Введите начальную и конечную станцию через запятую >> '
       s_names = gets.chomp.downcase.split(',')
-      $list_of_stations = s_names.map { |name| Station.new(name) }
-      print "Создан список станций --> #{$list_of_stations}"
+      $stations = s_names.map { |name| Station.new(name) }
+      print "Создан список станций --> #{$stations}"
       print "\n"
+
       break
     when 2
-      print "Cписок станций --> #{$list_of_stations}"
+      print "Cписок станций --> #{$stations}"
       print "\n"
+
       break
     when 3
+      if $stations.length == 0
+        puts 'Все станции пустуют'
+      else
+        $stations.each do |statation|
+          if statation.trains.length > 0
+            puts "На станции #{statation} стоят поезда #{statation.trains}"
+          else
+            puts "На станции #{statation} нет поездов"
+          end
+        end
+      end
+
+      break
+    when 4
       break
     else
       puts 'Неизвестная операция'
@@ -81,32 +114,85 @@ def stations
   end
 end
 
-def train
+def trains
   print "\n"
 
   loop do
     puts 'Введите цифру - выберите операцию:'
     puts '
-    1 - Назначить маршрут поезду
-    2 - Добавить вагон к поезду
-    3 - Отцепить вагон от поезда
-    4 - Переместить поезд на одну станцию вперед
-    5 - Переместить поезд на одну станцию назад'
+      1 - Создать поезд <Укажите тип (пассажирский || грузовой)>
+      2 - Назначить маршрут поезду
+      3 - Добавить вагон к поезду
+      4 - Отцепить вагон от поезда
+      5 - Переместить поезд на одну станцию вперед
+      6 - Переместить поезд на одну станцию назад'
     print "\n"
-    print '>> '
+    print 'Ожидаем цифру  >> '
 
     operation = gets.chomp.to_i
 
     case operation
     when 1
+      print 'Введите тип поезда >> '
+      type = gets.chomp.downcase
+      print 'Введите номер поезда >> '
+      number = gets.chomp.downcase
+
+      if type == 'пассажирский'
+        $train = PassengerTrain.new(number)
+
+        puts "--> #{$train}"
+        print "Создали для вас #{$train.type} поезд с номером #{$train.number}"
+      elsif type == 'грузовой'
+        $train = CargoTrain.new(number)
+
+        puts "--> #{$train}"
+        print "Создали для вас #{$train.type} поезд с номером #{$train.number}"
+      else
+        puts 'На данный момент для создания доступны только поезда типа <Грузовой> и <Пассажирский>'
+      end
+
       break
     when 2
+      print "Cписок станций --> #{$stations}"
+      if $route
+        $train.route($route)
+      else
+        puts 'Сначала необходимо создать маршрут'
+      end
+
       break
     when 3
+      print 'Создайте новый вагон.<Укажите тип (пассажирский || грузовой)> >> '
+      type = gets.chomp.downcase
+      print 'Введите номер вагона >> '
+      number = gets.chomp.downcase
+
+      if type == 'грузовой'
+        carriage = CargoCarriage.new(number)
+        $train.add_carriage(carriage)
+      elsif type == 'пассажирский'
+        carriage = PassengerCarriage.new(number)
+        $train.add_carriage(carriage)
+      else
+        puts 'На данный момент для создания доступны только вагоны типа <Грузовой> и <Пассажирский>'
+      end
+
       break
     when 4
+      $train.delete_carriage
+      puts 'От поезда отцеплен один вагон'
+
       break
     when 5
+      $train.go_to_next_station
+      puts 'Поезд перешел на следующую станцию'
+
+      break
+    when 6
+      $train.go_to_prev_station
+      puts 'Поезд перешел на предыдущую станцию'
+
       break
     else
       break
@@ -115,15 +201,16 @@ def train
 end
 
 loop do
+  print "\n"
   puts 'Введите цифру - выберите операцию:'
 
   puts '
-  1 - Управлять станциями
-  2 - Управлять маршрутами
-  3 - Управлять поездами
-  4 - Выйти из программы'
+    1 - Управлять станциями
+    2 - Управлять маршрутами
+    3 - Управлять поездами
+    4 - Выйти из программы'
   print "\n"
-  print '>> '
+  print 'Ожидаем цифру  >> '
 
   operation = gets.chomp
 
@@ -144,133 +231,3 @@ loop do
     puts 'Неизвестная операция'
   end
 end
-
-# def train
-#   puts 'Для создания поезда введите его тип и номер через запятую:'
-#   train_data = gets.chomp.downcase.split(',')
-#   print "\n"
-
-#   case train_data[0]
-#   when 'грузовой'
-#     puts "--> Создаем грузовой поезд с номером #{train_data[1]}"
-#     CargoTrain.new(train_data[1])
-#   when 'пассажирский'
-#     puts "--> Создаем пассажирский поезд с номером #{train_data[1]}"
-#     PassengerTrain.new(train_data[1])
-#   else
-#     puts 'Указан не верный тип поезд. Поезд не создан!'
-#   end
-# end
-
-# def route
-#   stations_list = stations
-#   route = Route.new(stations.first.name, stations.last.name)
-#   puts "Cоздан маршрут: #{route}"
-#   print "\n"
-
-#   puts 'Введите имя новой станции:'
-#   custom_station = Station.new(name)
-
-#   route.add_station(custom_station.name)
-
-#   route.drop_station(custom_station)
-
-#   puts "Список всех станций: #{route.stations}"
-#   print "\n"
-
-#   # print "\n"
-# end
-
-# def train_control
-#   train.route(route)
-#   #  Назначить маршрут поезда
-# end
-
-# print "\n"
-# t = train
-
-# print t
-# print t.number
-
-# puts 'Введите номер поезда:'
-# train_number = gets.chomp.to_s.downcase
-
-# print trains[:train_type]
-
-# s1 = Station.new('Начальная: Первомайская')
-# s2 = Station.new('Промежуточная: Молодежная')
-# s3 = Station.new('Промежуточная: Олимпийская')
-# s4 = Station.new('Промежуточная: Калининская')
-# s5 = Station.new('Конечная: Дружбы')
-
-# t1 = CargoTrain.new('№1')
-# t2 = PassengerTrain.new('№2')
-# t3 = CargoTrain.new('№3')
-
-# puts "Название станции: #{s1.name}"
-# print "\n"
-
-# s1.add_train(t1)
-# s1.add_train(t2)
-# s1.add_train(t3)
-
-# puts '----------- Вагоны -----------'
-# print "\n"
-
-# с1 = CargoCarriage.new(1)
-# с2 = PassengerCarriage.new(1)
-
-# # puts "#{с1.type} - номер: #{с1.number}"
-
-# t1.add_carriage(с1)
-# t1.add_carriage(с2)
-# puts t1.carriages
-# puts "Cписок поездов на станции - #{s1.trains}"
-# print "\n"
-
-# puts "Количество поездов по типу #{t1.type} - #{s1.count_trains_by_type(t1.type)}"
-# print "\n"
-
-# puts "На станции #{s1.name} - поезда по типу #{s1.trains_by_type('грузовой')}"
-# print "\n"
-
-# s1.send_train(t2)
-# puts "Cписок поездов на станции - #{s1.trains}"
-
-# print "\n"
-# puts '----------- Маршрут -----------'
-# print "\n"
-
-# route = Route.new(s1.name, s5.name)
-# puts "Маршрут: #{route}"
-# print "\n"
-
-# route.add_station(s2.name)
-# route.add_station(s3.name)
-# route.add_station(s4.name)
-
-# puts "Список всех станций: #{route.stations}"
-# print "\n"
-
-# print "\n"
-# puts '----------- Поезд -----------'
-# print "\n"
-
-# t1.increase_speed(5)
-# puts "Набранная скорость поезда: #{t1.speed}"
-# t1.stop
-# t1.add_carriage
-# t1.add_carriage
-# puts "Количество вагонов: #{t1.carriage_amount}"
-
-# t1.route(route)
-# t1.go_to_next_station
-# t1.go_to_next_station
-# t1.go_to_next_station
-# t1.go_to_next_station
-
-# t1.go_to_prev_station
-# t1.go_to_prev_station
-# t1.go_to_prev_station
-# t1.go_to_prev_station
-# t1.go_to_prev_station

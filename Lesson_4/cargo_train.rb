@@ -1,9 +1,11 @@
-require './base_train'
+require './train'
 
-class CargoTrain < BaseTrain
+class CargoTrain < Train
+  CARGO_TRAIN_TYPE = 'Грузовой'
+
   def initialize(number)
     super
-    @type = 'Грузовой'
+    @type = CARGO_TRAIN_TYPE.downcase
   end
 
   def add_carriage(carriage)

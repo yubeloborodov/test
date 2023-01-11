@@ -10,7 +10,7 @@
 # 9.Может перемещаться между станциями, указанными в маршруте. Перемещение возможно вперед и назад, но только на 1 станцию за раз.
 # 10.Возвращать предыдущую станцию, текущую, следующую, на основе маршрута
 
-class BaseTrain
+class Train
   attr_reader :carriages, :number, :speed, :type, :station_position
 
   def initialize(number)

@@ -1,3 +1,12 @@
+# require './station'
+# require './route'
+# require './passenger_train'
+# require './passenger_carriage'
+# require './cargo_train'
+# require './cargo_carriage'
+
+# Черновик
+
 # class Car
 #   attr_reader :current_rpm
 
@@ -55,8 +64,3 @@
 #     puts 'Drive'
 #   end
 # end
-arr = %w[qqq asdf asdasd fgdsgsfg]
-
-arr.delete('asdasd') if arr.include?('asdasd')
-
-print arr

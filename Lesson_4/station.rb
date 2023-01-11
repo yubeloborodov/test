@@ -8,7 +8,7 @@ class Station
   attr_reader :name, :trains
 
   def initialize(name)
-    @name = name
+    @name = name.strip
     @trains = []
   end
 
