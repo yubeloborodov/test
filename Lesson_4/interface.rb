@@ -1,4 +1,4 @@
-require_relative 'stations_module'
+require_relative 'stations_interface'
 require_relative 'routes_interface'
 require_relative 'trains_interface'
 require_relative 'mocks'
