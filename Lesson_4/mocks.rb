@@ -3,10 +3,11 @@ class Mocks
     # Create stations
     Interface.stations << Station.new('ст. Начальная 1')
     Interface.stations << Station.new('ст. Начальная 2')
-    Interface.stations << Station.new('ст. Конечная 1')
-    Interface.stations << Station.new('ст. Конечная 2')
 
     5.times { |i| Interface.stations << Station.new("ст. Промежуточная #{i + 1}") }
+
+    Interface.stations << Station.new('ст. Конечная 1')
+    Interface.stations << Station.new('ст. Конечная 2')
 
     # Create routes
     Interface.routes << Route.new(Interface.stations[0], Interface.stations[2])
@@ -20,7 +21,7 @@ class Mocks
     Interface.routes.last.add_station(Interface.stations[8])
 
     # Create trains
-    Interface.trains << CargoTrain.new('Грузовой поезд')
-    Interface.trains << PassengerTrain.new('Пассажирский поезд')
+    Interface.trains << CargoTrain.new('Грузовой')
+    Interface.trains << PassengerTrain.new('Пассажирский')
   end
 end

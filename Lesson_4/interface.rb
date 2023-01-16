@@ -33,10 +33,10 @@ class Interface
         puts '--> Операции со станциями'
         StationsInterface.menu
       when 2
-        puts '--> Оперции с маршрутами'
+        puts '--> Операции с маршрутами'
         RoutesInterface.menu
       when 3
-        puts '--> Оперции с поездами'
+        puts '--> Операции с поездами'
         TrainsInterface.menu
       else
         puts '! Неизвестная операция'
