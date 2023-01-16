@@ -16,7 +16,7 @@ class Station
     @trains << train
   end
 
-  def drop_train(train)
+  def delete_train(train)
     @trains.delete(train)
   end
 

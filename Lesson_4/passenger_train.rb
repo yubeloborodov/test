@@ -1,11 +1,8 @@
-require './train'
+require_relative 'train'
 
 class PassengerTrain < Train
-  PASSENGER_TRAIN_TYPE = 'Пассажирский'
-
   def initialize(number)
-    super
-    @type = PASSENGER_TRAIN_TYPE.downcase
+    super(number, TYPES[2])
   end
 
   def add_carriage(carriage)

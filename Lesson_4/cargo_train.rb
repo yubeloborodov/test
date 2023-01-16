@@ -1,11 +1,9 @@
-require './train'
+require_relative 'train'
+require_relative 'types'
 
 class CargoTrain < Train
-  CARGO_TRAIN_TYPE = 'Грузовой'
-
   def initialize(number)
-    super
-    @type = CARGO_TRAIN_TYPE.downcase
+    super(number, TYPES[1])
   end
 
   def add_carriage(carriage)

@@ -11,14 +11,15 @@
 # 10.Возвращать предыдущую станцию, текущую, следующую, на основе маршрута
 
 class Train
-  attr_reader :carriages, :number, :speed, :type, :station_position
+  attr_reader :carriages, :number, :speed, :type, :station_position, :current_station
 
-  def initialize(number)
+  def initialize(number, type)
     @speed = 0
     @number = number
     @route = nil
     @carriages = []
     @station_position = nil
+    @type = type
   end
 
   def increase_speed(speed)
@@ -38,25 +39,16 @@ class Train
   end
 
   # Может принимать маршрут следования (объект класса Route)
-  def route(route)
+  def set_route(route)
     @route = route
     @station_position = 0
   end
 
   def go_to_next_station
-    return puts 'Сначала укажите маршрут следования' if @route.nil?
-
-    if @station_position < @route.stations.length - 1
-      @station_position += 1
-      puts "Поезд на станции - #{@route.stations[@station_position]}"
-    else
-      puts 'Поезд стоит на крайней станции, движение вперед запрещено!'
-    end
+    @station_position += 1 if @station_position < @route.stations.length - 1
   end
 
   def go_to_prev_station
-    return puts 'Сначала укажите маршрут следования' if @route.nil?
-
     if @station_position < 0 || @station_position == @route.stations.length
       puts 'Поезд cтоит на крайней станции, движение назад запрещено!'
     else
@@ -66,20 +58,14 @@ class Train
   end
 
   def prev_station
-    return puts 'Сначала укажите маршрут следования' if @route.nil?
-
-    @route.stations[@station_position - 1]
+    @route.stations[@station_position - 1] unless @route.nil?
   end
 
   def current_station
-    return puts 'Сначала укажите маршрут следования' if @route.nil?
-
-    @route.stations[@station_position]
+    @route.stations[@station_position] unless @route.nil?
   end
 
   def next_station
-    return puts 'Сначала укажите маршрут следования' if @route.nil?
-
-    @route.stations[@station_position + 1]
+    @route.stations[@station_position + 1] unless @route.nil?
   end
 end
