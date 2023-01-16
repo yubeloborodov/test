@@ -1,3 +1,4 @@
 require_relative 'interface'
 
-Interface.init
+app = Interface.new
+app.init

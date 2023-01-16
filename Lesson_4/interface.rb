@@ -8,7 +8,7 @@ class Interface
   @@routes = []
   @@stations = []
 
-  def self.init
+  def init
     puts '< Консольный симулятор управления ЖД станцией >'
 
     Mocks.init # Моки
