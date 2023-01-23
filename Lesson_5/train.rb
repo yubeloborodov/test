@@ -15,6 +15,13 @@ require_relative 'company'
 class Train
   attr_reader :carriages, :number, :speed, :type, :station_position, :current_station
 
+  @@trains = []
+
+  def self.find(number)
+    @@trains.each { |train| return train if number == train.number }
+    nil
+  end
+
   def initialize(number, type)
     @speed = 0
     @number = number
