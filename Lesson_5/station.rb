@@ -3,8 +3,11 @@
 # 3.Может возвращать список всех поездов на станции, находящиеся в текущий момент
 # 4.Может возвращать список поездов на станции по типу (см. ниже): кол-во грузовых, пассажирских
 # 5.Может отправлять поезда (по одному за раз, при этом, поезд удаляется из списка поездов, находящихся на станции).
+require_relative 'instance_counter'
 
 class Station
+  include InstanceCounter
+
   attr_reader :name, :trains
 
   @@stations = []
@@ -16,6 +19,9 @@ class Station
   def initialize(name)
     @name = name.strip
     @trains = []
+
+    @@stations << self
+    register_instance
   end
 
   def add_train(train)

@@ -11,8 +11,12 @@
 # 10.Возвращать предыдущую станцию, текущую, следующую, на основе маршрута
 
 require_relative 'company'
+require_relative 'instance_counter'
 
 class Train
+  include Company
+  include InstanceCounter
+
   attr_reader :carriages, :number, :speed, :type, :station_position, :current_station
 
   @@trains = []
@@ -29,6 +33,9 @@ class Train
     @carriages = []
     @station_position = nil
     @type = type
+
+    @@trains << self
+    register_instance
   end
 
   def increase_speed(speed)
