@@ -47,7 +47,7 @@ class RoutesInterface
       print '>> '
       first = Interface.stations[gets.chomp.to_i - 1]
       raise ArgumentError, 'Станции с таким номером не существует' if first.nil?
-    rescue StandardError => e
+    rescue ArgumentError => e
       puts "! Ошибка: #{e.message}"
       retry
     end
@@ -57,7 +57,7 @@ class RoutesInterface
       print '>> '
       last = Interface.stations[gets.chomp.to_i - 1]
       raise ArgumentError, 'Станции с таким номером не существует' if last.nil?
-    rescue StandardError => e
+    rescue ArgumentError => e
       puts "! Ошибка: #{e.message}"
       retry
     end
@@ -80,7 +80,7 @@ class RoutesInterface
       print '>> '
       route = Interface.routes[gets.chomp.to_i - 1]
       raise ArgumentError, 'Маршрута под таким номером не существует' if route.nil?
-    rescue StandardError => e
+    rescue ArgumentError => e
       puts "! Ошибка: #{e.message}"
       retry
     end
