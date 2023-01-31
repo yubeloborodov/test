@@ -49,7 +49,7 @@ class RouteInterface
       print '>> '
       station = Interface.stations[gets.chomp.to_i - 1]
       raise ArgumentError, 'Станции с таким номером не существует!' if station.nil?
-    rescue StandardError => e
+    rescue ArgumentError => e
       puts "! Ошибка: #{e.message}"
       retry
     end
@@ -65,7 +65,7 @@ class RouteInterface
       print '>> '
       station = @@route.stations[gets.chomp.to_i - 1]
       raise ArgumentError, ' Станции с таким номером не существует на маршруте !' if station.nil?
-    rescue StandardError => e
+    rescue ArgumentError => e
       puts "! Ошибка: #{e.message}"
       retry
     end
