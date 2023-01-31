@@ -42,15 +42,25 @@ class RoutesInterface
   end
 
   def self.create
-    puts 'Введите номер начальной станции:'
-    print '>> '
+    begin
+      puts 'Введите номер начальной станции:'
+      print '>> '
+      first = Interface.stations[gets.chomp.to_i - 1]
+      raise ArgumentError, 'Станции с таким номером не существует' if first.nil?
+    rescue StandardError => e
+      puts "! Ошибка: #{e.message}"
+      retry
+    end
 
-    first = Interface.stations[gets.chomp.to_i - 1]
-
-    puts 'Введите номер конечной станции:'
-    print '>> '
-
-    last = Interface.stations[gets.chomp.to_i - 1]
+    begin
+      puts 'Введите номер конечной станции:'
+      print '>> '
+      last = Interface.stations[gets.chomp.to_i - 1]
+      raise ArgumentError, 'Станции с таким номером не существует' if last.nil?
+    rescue StandardError => e
+      puts "! Ошибка: #{e.message}"
+      retry
+    end
 
     Interface.routes << Route.new(first, last)
   end
@@ -65,10 +75,15 @@ class RoutesInterface
   def self.select_route
     show_routes
 
-    puts 'Введите номер маршрута:'
-    print '>> '
-    route = Interface.routes[gets.chomp.to_i - 1]
-    return puts '! Маршрута под таким номером не существует' if route.nil?
+    begin
+      puts 'Введите номер маршрута:'
+      print '>> '
+      route = Interface.routes[gets.chomp.to_i - 1]
+      raise ArgumentError, 'Маршрута под таким номером не существует' if route.nil?
+    rescue StandardError => e
+      puts "! Ошибка: #{e.message}"
+      retry
+    end
 
     route
   end

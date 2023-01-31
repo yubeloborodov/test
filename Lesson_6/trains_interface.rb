@@ -50,8 +50,11 @@ class TrainsInterface
     elsif type == 2
       Interface.trains << PassengerTrain.new(TYPES[type])
     else
-      puts '! нет такого типа поезда'
+      raise TypeError, 'Нет такого типа поезда'
     end
+  rescue TypeError => e
+    puts "! Ошибка: #{e.message}"
+    retry
   end
 
   def self.list
@@ -62,10 +65,15 @@ class TrainsInterface
   def self.select
     list
 
-    puts 'Введите номер поезда:'
-    print '>> '
-    train = Interface.trains[gets.chomp.to_i - 1]
-    return puts '! Поезда под таким номером не существует' if train.nil?
+    begin
+      puts 'Введите номер поезда:'
+      print '>> '
+      train = Interface.trains[gets.chomp.to_i - 1]
+      raise ArgumentError, 'Поезда под таким номером не существует' if train.nil?
+    rescue ArgumentError => e
+      puts "! Ошибка: #{e.message}"
+      retry
+    end
 
     train
   end

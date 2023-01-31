@@ -72,10 +72,15 @@ class TrainInterface
   def self.set_route
     RoutesInterface.show_routes
 
-    puts 'Введите номер маршрута:'
-    print '>> '
-    route = Interface.routes[gets.chomp.to_i - 1]
-    return puts '! Маршрута под таким номером не существует' if route.nil?
+    begin
+      puts 'Введите номер маршрута:'
+      print '>> '
+      route = Interface.routes[gets.chomp.to_i - 1]
+      raise ArgumentError, 'Маршрута с таким номером не существует!' if route.nil?
+    rescue ArgumentError => e
+      puts "! Ошибка: #{e.message}"
+      retry
+    end
 
     @@train.set_route(route)
   end
@@ -83,26 +88,31 @@ class TrainInterface
   def self.add_carriage
     return puts '! Остановите сначала поезд' if @@train.speed > 0
 
-    puts 'Выберите тип вагона:'
-    puts '1 - Грузовой'
-    puts '2 - Пассажирский'
-    print '>> '
-    type = gets.chomp.to_i
+    begin
+      puts 'Введите номер вагона:'
+      print '>> '
+      number = gets.chomp.to_i
 
-    if @@train.type != TYPES[type]
-      return puts "! К поезду типа #{@@train.type} можно прицепить вагон только того же типа"
-    end
+      puts 'Выберите тип вагона:'
+      puts '1 - Грузовой'
+      puts '2 - Пассажирский'
+      print '>> '
+      type = gets.chomp.to_i
 
-    puts 'Введите номер вагона:'
-    print '>> '
-    number = gets.chomp.to_i
+      if type == 1
+        @@train.add_carriage(CargoCarriage.new(number))
+      elsif type == 2
+        @@train.add_carriage(PassengerCarriage.new(number))
+      else
+        raise TypeError, 'Нет такого типа вагонов'
+      end
 
-    if type == 1
-      @@train.add_carriage(CargoCarriage.new(number))
-    elsif type == 2
-      @@train.add_carriage(PassengerCarriage.new(number))
-    else
-      puts '! нет такого типа вагонов'
+      if @@train.type != TYPES[type]
+        raise TypeError, "! К поезду типа #{@@train.type} можно прицепить вагон только того же типа"
+      end
+    rescue TypeError => e
+      puts "! Ошибка: #{e.message}"
+      retry
     end
 
     puts "\tВсего вагонов: #{@@train.carriages.size}"

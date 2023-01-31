@@ -44,10 +44,15 @@ class RouteInterface
   end
 
   def self.add_station
-    puts 'Введите номер станции для добавления её в маршрут:'
-    print '>> '
-    station = Interface.stations[gets.chomp.to_i - 1]
-    return puts "\t ! Станции с таким номером не существует!" if station.nil?
+    begin
+      puts 'Введите номер станции для добавления её в маршрут:'
+      print '>> '
+      station = Interface.stations[gets.chomp.to_i - 1]
+      raise ArgumentError, 'Станции с таким номером не существует!' if station.nil?
+    rescue StandardError => e
+      puts "! Ошибка: #{e.message}"
+      retry
+    end
 
     @@route.add_station(station)
   end
@@ -55,10 +60,15 @@ class RouteInterface
   def self.delete_station
     info(@@route)
 
-    puts 'Введите номер промежуточной станции для её удаления из маршрута:'
-    print '>> '
-    station = @@route.stations[gets.chomp.to_i - 1]
-    return puts "\t ! Станции с таким номером на маршруте не существует!" if station.nil?
+    begin
+      puts 'Введите номер промежуточной станции для её удаления из маршрута:'
+      print '>> '
+      station = @@route.stations[gets.chomp.to_i - 1]
+      raise ArgumentError, ' Станции с таким номером не существует на маршруте !' if station.nil?
+    rescue StandardError => e
+      puts "! Ошибка: #{e.message}"
+      retry
+    end
 
     @@route.delete_station(station)
   end
