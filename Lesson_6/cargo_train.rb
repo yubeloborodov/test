@@ -2,8 +2,8 @@ require_relative 'train'
 require_relative 'types'
 
 class CargoTrain < Train
-  def initialize(number)
-    super(number, TYPES[1])
+  def initialize(number, type)
+    super(number, TYPES[type])
   end
 
   def add_carriage(carriage)

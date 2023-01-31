@@ -20,6 +20,7 @@ class Train
   attr_reader :carriages, :number, :speed, :type, :station_position, :current_station
 
   NUMBER_FORMAT = /^[а-яa-z0-9]{3}-?[а-яa-z0-9]{2}$/i
+  ERROR = 'Допустимый формат: три буквы или цифры в любом порядке, необязательный дефис (может быть, а может нет) и еще 2 буквы или цифры после дефиса'
 
   @@trains = []
 
@@ -41,16 +42,13 @@ class Train
   end
 
   def validate!
-    if @number !~ NUMBER_FORMAT
-      raise RegexpError,
-            'Допустимый формат: три буквы или цифры в любом порядке, необязательный дефис (может быть, а может нет) и еще 2 буквы или цифры после дефиса'
-    end
+    raise RegexpError, ERROR if @number !~ NUMBER_FORMAT
   end
 
   def valid?
     validate!
     true
-  rescue StandardError
+  rescue RegexpError
     false
   end
 

@@ -1,3 +1,5 @@
+require_relative 'types'
+
 class Mocks
   def self.init
     # Create stations
@@ -21,7 +23,7 @@ class Mocks
     Interface.routes.last.add_station(Interface.stations[8])
 
     # Create trains
-    Interface.trains << CargoTrain.new('tu1-yy')
-    Interface.trains << PassengerTrain.new('tu2-yy')
+    Interface.trains << CargoTrain.new('tu1-yy', TYPES[1])
+    Interface.trains << PassengerTrain.new('tu2-yy', TYPES[2])
   end
 end
