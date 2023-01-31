@@ -46,9 +46,13 @@ class TrainsInterface
     type = gets.chomp.to_i
 
     if type == 1
-      Interface.trains << CargoTrain.new(TYPES[type])
+      cargo_train = CargoTrain.new(TYPES[type])
+      puts cargo_train.valid?
+      Interface.trains << cargo_train
     elsif type == 2
-      Interface.trains << PassengerTrain.new(TYPES[type])
+      passenger_train = PassengerTrain.new(TYPES[type])
+      puts passenger_train.valid?
+      Interface.trains << passenger_train
     else
       raise TypeError, 'Нет такого типа поезда'
     end

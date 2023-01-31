@@ -19,6 +19,8 @@ class Train
 
   attr_reader :carriages, :number, :speed, :type, :station_position, :current_station
 
+  NUMBER_FORMAT = /^[а-яa-z0-9]{3}-?[а-яa-z0-9]{2}$/i
+
   @@trains = []
 
   def self.find(number)
@@ -32,9 +34,24 @@ class Train
     @carriages = []
     @station_position = nil
     @type = type
+    validate!
 
     @@trains << self
     register_instance
+  end
+
+  def validate!
+    if @number !~ NUMBER_FORMAT
+      raise RegexpError,
+            'Допустимый формат: три буквы или цифры в любом порядке, необязательный дефис (может быть, а может нет) и еще 2 буквы или цифры после дефиса'
+    end
+  end
+
+  def valid?
+    validate!
+    true
+  rescue StandardError
+    false
   end
 
   def increase_speed(speed)

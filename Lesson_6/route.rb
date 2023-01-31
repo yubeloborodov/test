@@ -18,6 +18,17 @@ class Route
     register_instance
   end
 
+  def validate!
+    raise ArgumentError, 'Не указаны first_station и last_station' if @first_station.nil? || @last_station.nil?
+  end
+
+  def valid?
+    validate!
+    true
+  rescue ArgumentError
+    false
+  end
+
   def add_station(station)
     @stations.insert(1, station)
   end

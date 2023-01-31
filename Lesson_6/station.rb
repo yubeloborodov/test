@@ -10,6 +10,8 @@ class Station
 
   attr_reader :name, :trains
 
+  NAME_FORMAT = /[A-Я][a-я]*/
+
   @@stations = []
 
   def self.all
@@ -19,9 +21,21 @@ class Station
   def initialize(name)
     @name = name.strip
     @trains = []
+    validate!
 
     @@stations << self
     register_instance
+  end
+
+  def validate!
+    raise RegexpError, 'Допустииый формат для имени станции: только кириллица' if @name !~ NAME_FORMAT
+  end
+
+  def valid?
+    validate!
+    true
+  rescue StandardError
+    false
   end
 
   def add_train(train)

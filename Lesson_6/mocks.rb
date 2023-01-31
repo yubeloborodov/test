@@ -21,7 +21,7 @@ class Mocks
     Interface.routes.last.add_station(Interface.stations[8])
 
     # Create trains
-    Interface.trains << CargoTrain.new('Грузовой')
-    Interface.trains << PassengerTrain.new('Пассажирский')
+    Interface.trains << CargoTrain.new('tu1-yy')
+    Interface.trains << PassengerTrain.new('tu2-yy')
   end
 end
