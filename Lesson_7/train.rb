@@ -64,8 +64,8 @@ class Train
     @carriages << carriage if @speed == 0
   end
 
-  def delete_carriage
-    @carriages.delete(@carriages.last) if @speed == 0
+  def delete_carriage(index)
+    @carriages.delete_at(index) if @speed == 0
   end
 
   # Может принимать маршрут следования (объект класса Route)
@@ -97,5 +97,10 @@ class Train
 
   def next_station
     @route.stations[@station_position + 1] unless @route.nil?
+  end
+
+  # Написать метод, который принимает блок и проходит по всем вагонам поезда, передавая каждый объект вагона в блок
+  def get_carriages
+    @carriages.each_with_index { |carriage, index| yield(carriage, index + 1) } if block_given?
   end
 end

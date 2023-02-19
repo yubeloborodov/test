@@ -1,5 +1,6 @@
-require_relative 'cargo_carriage'
-require_relative 'passenger_carriage'
+# require_relative 'cargo_carriage'
+# require_relative 'passenger_carriage'
+require_relative 'carriage_interface'
 
 class TrainInterface
   def self.menu(train)
@@ -13,14 +14,14 @@ class TrainInterface
       puts '1 - Назначить маршрут поезду'
 
       unless @@train.current_station.nil?
-        puts '2 - Прицепить вагоны к поезду'
-        puts '3 - Отцепить вагоны от поезда'
-        puts '4 - Текущая станция'
-        puts '5 - Переместить поезд на станцию вперед'
-        puts '6 - Переместить поезд на станцию назад'
-        puts '7 - Скорость поезда'
-        puts '8 - Задать скорость поезду'
-        puts '9 - Остановить поезд'
+        puts '2 - Операции с вагонами'
+        puts '3 - Текущая станция'
+        puts '4 - Двигаться вперед'
+        puts '5 - Двигаться назад'
+        puts '6 - Скорость поезда'
+        puts '7 - Задать скорость поезду'
+        puts '8 - Остановить поезд'
+        # puts '9 - Проверить на валидность'
       end
 
       puts '0 - Вернуться в меню поездов'
@@ -38,27 +39,24 @@ class TrainInterface
         puts '--> Назначить маршрут поезду'
         set_route
       when 2
-        puts '--> Прицепить вагоны к поезду'
-        add_carriage
+        puts '--> Операции с вагонами'
+        CarriageInterface.menu(@@train)
       when 3
-        puts '--> Отцепить вагоны от поезда'
-        delete_carriage
-      when 4
         puts '--> Поезд находится на станции'
         puts "\t#{@@train.current_station.name}"
-      when 5
+      when 4
         puts '--> Двигаться вперед'
         go_to_next_station
-      when 6
+      when 5
         puts '--> Двигаться назад'
         go_to_prev_station
-      when 7
+      when 6
         puts '--> Скорость поезда'
         puts "\t#{@@train.speed}"
-      when 8
+      when 7
         puts '--> Задать скорость поезду'
         set_speed
-      when 9
+      when 8
         puts '--> Остановить поезд'
         @@train.stop
       else
@@ -83,56 +81,6 @@ class TrainInterface
     end
 
     @@train.set_route(route)
-  end
-
-  def self.add_carriage
-    return puts '! Остановите сначала поезд' if @@train.speed > 0
-
-    begin
-      puts 'Введите номер вагона:'
-      print '>> '
-      number = gets.chomp.to_i
-
-      puts 'Выберите тип вагона:'
-      puts '1 - Грузовой'
-      puts '2 - Пассажирский'
-      print '>> '
-      type = gets.chomp.to_i
-
-      if type == 1
-        @@train.add_carriage(CargoCarriage.new(number))
-      elsif type == 2
-        @@train.add_carriage(PassengerCarriage.new(number))
-      else
-        raise TypeError, 'Нет такого типа вагонов'
-      end
-
-      if @@train.type != TYPES[type]
-        raise TypeError, "! К поезду типа #{@@train.type} можно прицепить вагон только того же типа"
-      end
-    rescue TypeError => e
-      puts "! Ошибка: #{e.message}"
-      retry
-    end
-
-    puts "\tВсего вагонов: #{@@train.carriages.size}"
-  end
-
-  def self.delete_carriage
-    return puts '! Остановите сначала поезд' if @@train.speed > 0
-
-    puts 'Введите кол-во вагонов:'
-    print '>> '
-    count = gets.chomp.to_i
-
-    if count > @@train.carriages.size
-      puts "! К поезду прицеплено только #{@@train.carriages.size}, столько и будет отцеплено"
-      count = @@train.carriages.size
-    end
-
-    count.times { @@train.delete_carriage }
-
-    puts "\tВсего вагонов: #{@@train.carriages.size}"
   end
 
   def self.go_to_next_station

@@ -43,33 +43,46 @@ class RouteInterface
     route.stations.each_with_index { |station, index| puts "\t#{index + 1} - #{station.name}" }
   end
 
-  def self.add_station
-    begin
-      puts 'Введите номер станции для добавления её в маршрут:'
-      print '>> '
-      station = Interface.stations[gets.chomp.to_i - 1]
-      raise ArgumentError, 'Станции с таким номером не существует!' if station.nil?
-    rescue ArgumentError => e
-      puts "! Ошибка: #{e.message}"
-      retry
-    end
+  def self.select(message, obj)
+    puts message
+    print '>> '
+    index = gets.chomp.to_i
+    raise ArgumentError, 'Станции с таким номером не существует' if index <= 0 || index > obj.length
 
-    @@route.add_station(station)
+    station = obj[index - 1]
+    yield(station)
+  rescue ArgumentError => e
+    puts "! Ошибка: #{e.message}"
+    retry
+  end
+
+  def self.add_station
+    StationsInterface.show_stations
+
+    select(
+      'Введите порядковый номер станции для добавления её в маршрут:',
+      Interface.stations
+    ) { |station| @@route.add_station(station) }
+
+    # begin
+    #   puts 'Введите номер станции для добавления её в маршрут:'
+    #   print '>> '
+    #   station = Interface.stations[gets.chomp.to_i - 1]
+    #   raise ArgumentError, 'Станции с таким номером не существует!' if station.nil?
+    # rescue ArgumentError => e
+    #   puts "! Ошибка: #{e.message}"
+    #   retry
+    # end
+
+    # @@route.add_station(station)
   end
 
   def self.delete_station
     info(@@route)
 
-    begin
-      puts 'Введите номер промежуточной станции для её удаления из маршрута:'
-      print '>> '
-      station = @@route.stations[gets.chomp.to_i - 1]
-      raise ArgumentError, ' Станции с таким номером не существует на маршруте !' if station.nil?
-    rescue ArgumentError => e
-      puts "! Ошибка: #{e.message}"
-      retry
-    end
-
-    @@route.delete_station(station)
+    select(
+      'Введите порядковый номер промежуточной станции для её удаления из маршрута:',
+      @@route.stations
+    ) { |station| @@route.remove_station(station) }
   end
 end

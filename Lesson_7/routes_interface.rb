@@ -5,6 +5,7 @@ require_relative 'interface'
 class RoutesInterface
   def self.menu
     loop do
+      puts "Маршрутов: #{Route.instances}"
       puts 'Введите цифру - выберите действие:'
       puts '1 - Создать маршрут'
 
@@ -41,26 +42,26 @@ class RoutesInterface
     end
   end
 
-  def self.create
-    begin
-      puts 'Введите номер начальной станции:'
-      print '>> '
-      first = Interface.stations[gets.chomp.to_i - 1]
-      raise ArgumentError, 'Станции с таким номером не существует' if first.nil?
-    rescue ArgumentError => e
-      puts "! Ошибка: #{e.message}"
-      retry
-    end
+  def select_station(message)
+    puts message
+    print '>> '
+    index = gets.chomp.to_i
+    raise ArgumentError, 'Станции с таким номером не существует' if index <= 0 || index > Interface.stations.length
 
-    begin
-      puts 'Введите номер конечной станции:'
-      print '>> '
-      last = Interface.stations[gets.chomp.to_i - 1]
-      raise ArgumentError, 'Станции с таким номером не существует' if last.nil?
-    rescue ArgumentError => e
-      puts "! Ошибка: #{e.message}"
-      retry
-    end
+    yield(index - 1)
+  rescue ArgumentError => e
+    puts "! Ошибка: #{e.message}"
+    retry
+  end
+
+  def self.create
+    StationsInterface.show_stations # показаем все станции что есть
+
+    first = nil
+    last = nil
+
+    select_station('Введите порядковый номер начальной станции:') { |index| first = Interface.stations[index] }
+    select_station('Введите порядковый номер конечной станции:') { |index| last = Interface.stations[index] }
 
     Interface.routes << Route.new(first, last)
   end

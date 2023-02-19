@@ -69,7 +69,7 @@ class TrainsInterface
     list
 
     begin
-      puts 'Введите номер поезда:'
+      puts 'Введите порядковый номер поезда:'
       print '>> '
       train = Interface.trains[gets.chomp.to_i - 1]
       raise ArgumentError, 'Поезда под таким номером не существует' if train.nil?

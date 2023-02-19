@@ -40,6 +40,9 @@ class Station
 
   def add_train(train)
     @trains << train
+
+    # передаем текущую станцию в поезд для запоминания
+    train.current_station = self
   end
 
   def delete_train(train)
@@ -56,5 +59,10 @@ class Station
 
   def send_train(train)
     @trains.delete(train)
+  end
+
+  # Написать метод, который принимает блок и проходит по всем поездам на станции передавая каждый поезд в блок
+  def get_trains
+    @trains.each(&block) if block_given?
   end
 end
