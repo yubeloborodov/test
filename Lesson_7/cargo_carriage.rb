@@ -4,10 +4,10 @@ require_relative 'types'
 class CargoCarriage < Carriage
   attr_reader :type, :number
 
-  def initialize(type, number, max_units)
+  def initialize(max_units)
     @max_units = max_units
     validate!
-    super(type, number, max_units)
+    super(TYPES[1], max_units)
   end
 
   private

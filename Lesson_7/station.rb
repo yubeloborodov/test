@@ -1,16 +1,7 @@
-# 1.Имеет название, которое указывается при ее создании
-# 2.Может принимать поезда (по одному за раз)
-# 3.Может возвращать список всех поездов на станции, находящиеся в текущий момент
-# 4.Может возвращать список поездов на станции по типу (см. ниже): кол-во грузовых, пассажирских
-# 5.Может отправлять поезда (по одному за раз, при этом, поезд удаляется из списка поездов, находящихся на станции).
-require_relative 'instance_counter'
-
 class Station
-  include InstanceCounter
+  NAME_FORMAT = /[A-Я][a-я]*/
 
   attr_reader :name, :trains
-
-  NAME_FORMAT = /[A-Я][a-я]*/
 
   @@stations = []
 
@@ -24,11 +15,11 @@ class Station
     validate!
 
     @@stations << self
-    register_instance
+    # register_instance
   end
 
   def validate!
-    raise RegexpError, 'Допустииый формат для имени станции: только кириллица' if @name !~ NAME_FORMAT
+    raise RegexpError, 'Допустимый формат для имени станции: только кириллица' if @name !~ NAME_FORMAT
   end
 
   def valid?
@@ -62,7 +53,8 @@ class Station
   end
 
   # Написать метод, который принимает блок и проходит по всем поездам на станции передавая каждый поезд в блок
-  def get_trains
+  # блок - аналог колбек функции
+  def get_trains(&block)
     @trains.each(&block) if block_given?
   end
 end

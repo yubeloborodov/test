@@ -6,6 +6,8 @@ class RoutesInterface
   def self.menu
     loop do
       puts "Маршрутов: #{Route.instances}"
+      puts "\n"
+
       puts 'Введите цифру - выберите действие:'
       puts '1 - Создать маршрут'
 
@@ -42,7 +44,7 @@ class RoutesInterface
     end
   end
 
-  def select_station(message)
+  def self.select_station(message) # не явно принимает &block
     puts message
     print '>> '
     index = gets.chomp.to_i
@@ -68,7 +70,7 @@ class RoutesInterface
 
   def self.show_routes
     Interface.routes.each_with_index do |route, index|
-      puts "\t[#{index + 1}] маршрут:"
+      puts "[#{index + 1}] маршрут:"
       RouteInterface.info(route)
     end
   end

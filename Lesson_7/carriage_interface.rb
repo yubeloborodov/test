@@ -1,13 +1,14 @@
 require_relative 'cargo_carriage'
 require_relative 'passenger_carriage'
 require_relative 'template'
+require_relative 'types'
 
 class CarriageInterface
   def self.menu(train)
     @@train = train
-
+    puts train
     loop do
-      puts "Поезд: #{train.number}, вагонов: #{train.carriages.size}"
+      puts "Поезд: #{train.number}, типа #{train.type}, вагонов: #{train.carriages.size}"
       puts 'Введите цифру - выберите действие:'
       puts '1 - Прицепить вагон к поезду'
 
@@ -32,7 +33,7 @@ class CarriageInterface
         puts '--> Прицепить вагон к поезду'
         add_carriage
       when 2
-        puts '--> Отцепить вагон от поезда'
+        puts '--> Отцепить вагоны от поезда'
         delete_carriage
       when 3
         puts '--> Заполнить вагон'
@@ -62,52 +63,37 @@ class CarriageInterface
       print '>> '
       type = gets.chomp.to_i
 
+      puts "Выбран тип вагона #{TYPES[type]}"
+
+      puts "Поезд имеет тип вагона #{@@train.type}"
+
       if @@train.type != TYPES[type]
         raise TypeError, "! К поезду типа #{@@train.type} можно прицепить вагон только того же типа"
       end
-    rescue TypeError => e
-      puts "! Ошибка: #{e.message}"
-      retry
 
-      input_carriage_block = proc do |input_message, class_carriage|
+      input_carriage_block = proc do |input_message, carriage_class|
         puts input_message
         print '>> '
         unit = gets.chomp.to_i
 
-        carriage = class_carriage.new(unit)
+        carriage = carriage_class.new(unit)
         @@train.add_carriage(carriage)
-        # rescue ArgumentError => e
-        #   puts "! Ошибка: #{e.message}"
-        #   retry
+      rescue ArgumentError => e
+        puts "! Ошибка: #{e.message}"
+        retry
       end
 
       if type == 1
         input_carriage_block.call('Введите объем грузового вагона:', CargoCarriage)
-        # @@train.add_carriage(CargoCarriage.new(number))
       elsif type == 2
-        input_carriage_block.call('Введите кол-во мест в вагоне:', PassengerCarriage)
-        # @@train.add_carriage(PassengerCarriage.new(number))
+        input_carriage_block.call('Введите кол-во мест в пассажирском вагоне:', PassengerCarriage)
       else
         raise TypeError, 'Нет такого типа вагонов'
       end
+    rescue TypeError => e
+      puts "! Ошибка: #{e.message}"
+      retry
     end
-
-    puts "\tВсего вагонов: #{@@train.carriages.size}"
-  end
-
-  def self.delete_carriage
-    return puts '! Остановите сначала поезд' if @@train.speed > 0
-
-    puts 'Введите кол-во вагонов:'
-    print '>> '
-    count = gets.chomp.to_i
-
-    if count > @@train.carriages.size
-      puts "! К поезду прицеплено только #{@@train.carriages.size}, столько и будет отцеплено"
-      count = @@train.carriages.size
-    end
-
-    count.times { @@train.delete_carriage }
 
     puts "\tВсего вагонов: #{@@train.carriages.size}"
   end
@@ -130,8 +116,8 @@ class CarriageInterface
     end
   end
 
-  def self.remove
-    select { |index| @@train.remove_carriage(index) }
+  def self.delete_carriage
+    select { |index| @@train.delete_carriage(index) }
   end
 
   def self.fill_carriage

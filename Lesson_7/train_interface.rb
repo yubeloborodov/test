@@ -1,5 +1,5 @@
-# require_relative 'cargo_carriage'
-# require_relative 'passenger_carriage'
+require_relative 'cargo_carriage'
+require_relative 'passenger_carriage'
 require_relative 'carriage_interface'
 
 class TrainInterface
@@ -21,7 +21,6 @@ class TrainInterface
         puts '6 - Скорость поезда'
         puts '7 - Задать скорость поезду'
         puts '8 - Остановить поезд'
-        # puts '9 - Проверить на валидность'
       end
 
       puts '0 - Вернуться в меню поездов'
@@ -75,35 +74,12 @@ class TrainInterface
       print '>> '
       route = Interface.routes[gets.chomp.to_i - 1]
       raise ArgumentError, 'Маршрута с таким номером не существует!' if route.nil?
+
+      @@train.set_route(route)
+      puts "Поезду #{@@train} назначен маршрут #{route}"
     rescue ArgumentError => e
       puts "! Ошибка: #{e.message}"
       retry
     end
-
-    @@train.set_route(route)
-  end
-
-  def self.go_to_next_station
-    if @@train.next_station.nil?
-      return puts "! Поезд '#{@@train.number}' на конечной станции: #{@@train.current_station.name}"
-    end
-
-    @@train.go_to_next_station
-    puts "\tПоезд прибыл на странцию: #{@@train.current_station.name}"
-  end
-
-  def self.go_to_prev_station
-    if @@train.prev_station.nil?
-      return puts "! Поезд '#{@@train.number}' на начальной станции: #{@@train.current_station.name}"
-    end
-
-    @@train.go_to_prev_station
-    puts "\tПоезд прибыл на странцию: #{@@train.current_station.name}"
-  end
-
-  def self.set_speed
-    puts 'Введите скорость:'
-    print '>> '
-    @@train.set_speed = gets.chomp.to_i
   end
 end

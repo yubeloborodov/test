@@ -24,7 +24,7 @@ class TrainsInterface
         puts '--> Создать поезд'
         create
       when 2
-        puts '--> Выбрать поезд, операции с ним'
+        puts '--> Выбрать поезд, перейти к операциям с ним'
         TrainInterface.menu(select)
       else
         puts '! Неизвестная операция'
@@ -62,7 +62,7 @@ class TrainsInterface
 
   def self.list
     puts 'Список поездов:'
-    Interface.trains.each_with_index { |train, index| puts "\t#{index + 1} - #{train.number}" }
+    Interface.trains.each_with_index { |train, index| puts "#{index + 1} - #{train.number} - #{train.type} - #{train.speed}" }
   end
 
   def self.select
