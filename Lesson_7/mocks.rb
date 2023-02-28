@@ -2,37 +2,43 @@ require_relative 'types'
 
 class Mocks
   def self.init
-    # Create stations
+    # Создаем станции
     Interface.stations << Station.new('ст. Начальная 1')
-    5.times { |i| Interface.stations << Station.new("ст. Промежуточная #{i + 1}") }
+    2.times { |i| Interface.stations << Station.new("ст. Промежуточная #{i + 1}") }
     Interface.stations << Station.new('ст. Конечная 1')
 
-    # Create routes
-    Interface.routes << Route.new(Interface.stations[0], Interface.stations[2])
+    # -------------------------------------------------------------------------------------
 
-    Interface.routes << Route.new(Interface.stations[1], Interface.stations[3])
-    Interface.routes.last.add_station(Interface.stations[4])
-    Interface.routes.last.add_station(Interface.stations[5])
+    # Создаем маршруты
 
-    # Create trains
+    # Маршрут для грузового поезда
+    Interface.routes << Route.new(Interface.stations.first, Interface.stations[1])
+
+    # Маршрут для пассажирского поезда
+    Interface.routes << Route.new(Interface.stations.first, Interface.stations.last)
+
+    # -------------------------------------------------------------------------------------
+
+    # Создаем грузовой поезд
     cargo_train = CargoTrain.new('car-11', 1)
     Interface.trains << cargo_train
     Interface.trains.last.set_route(Interface.routes[0])
 
-    # 1.upto(7) do |i|
-    #   carriage = CargoCarriage.new(10 + i)
-    #   cargo_train.add_carriage(carriage)
-    # end
+    # Цепляем вагоны к грузовому поезду
+    1.upto(4) do |i|
+      carriage = CargoCarriage.new(10 * i)
+      cargo_train.add_carriage(carriage)
+    end
 
-    carriage = CargoCarriage.new(10)
-    cargo_train.add_carriage(carriage)
-    carriage = CargoCarriage.new(20)
-    cargo_train.add_carriage(carriage)
+    # Создаем пассажирский поезд поезд
+    passenger_train = PassengerTrain.new('pas-11', 2)
+    Interface.trains << passenger_train
+    Interface.trains.last.set_route(Interface.routes[1])
 
-    # print cargo_train.carriages
-
-    cargo_train.get_carriages do |carriage, index|
-      puts "#{carriage} - #{index}"
+    # Цепляем вагоны к пассажирскому поезду
+    2.times do
+      carriage = PassengerCarriage.new(20)
+      passenger_train.add_carriage(carriage)
     end
   end
 end

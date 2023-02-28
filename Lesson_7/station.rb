@@ -1,4 +1,8 @@
+require_relative 'instance_counter'
+
 class Station
+  include InstanceCounter
+
   NAME_FORMAT = /[A-Я][a-я]*/
 
   attr_reader :name, :trains
@@ -15,7 +19,7 @@ class Station
     validate!
 
     @@stations << self
-    # register_instance
+    register_instance
   end
 
   def validate!

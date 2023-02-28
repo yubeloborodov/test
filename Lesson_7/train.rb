@@ -3,7 +3,8 @@ require_relative 'instance_counter'
 class Train
   include InstanceCounter
 
-  attr_reader :carriages, :number, :speed, :type, :station_position, :current_station
+  attr_reader :carriages, :number, :speed, :type, :station_position
+  attr_accessor :current_station # возвращать / задать
 
   NUMBER_FORMAT = /^[а-яa-z0-9]{3}-?[а-яa-z0-9]{2}$/i
   ERROR = 'Допустимый формат: три буквы или цифры в любом порядке, необязательный дефис (может быть, а может нет) и еще 2 буквы или цифры после дефиса'
@@ -58,6 +59,8 @@ class Train
   def set_route(route)
     @route = route
     @station_position = 0
+
+    @route.stations[@station_position].add_train(self)
   end
 
   def go_to_next_station

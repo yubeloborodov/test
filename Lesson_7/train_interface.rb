@@ -82,4 +82,28 @@ class TrainInterface
       retry
     end
   end
+
+  def self.go_to_next_station
+    if @@train.next_station.nil?
+      return puts "! Поезд '#{@@train.number}' на конечной станции: #{@@train.current_station.name}"
+    end
+
+    @@train.go_to_next_station
+    puts "\tПоезд прибыл на странцию: #{@@train.current_station.name}"
+  end
+
+  def self.go_to_prev_station
+    if @@train.prev_station.nil?
+      return puts "! Поезд '#{@@train.number}' на начальной станции: #{@@train.current_station.name}"
+    end
+
+    @@train.go_to_prev_station
+    puts "\tПоезд прибыл на странцию: #{@@train.current_station.name}"
+  end
+
+  def self.set_speed
+    puts 'Введите скорость:'
+    print '>> '
+    @@train.speed = gets.chomp.to_i
+  end
 end

@@ -5,8 +5,7 @@ class StationsInterface
 
   def self.menu
     loop do
-      # puts "Станций: #{Station.instances}"
-
+      puts "Станций: #{Station.instances}"
       puts '---------------------------------'
       puts "\n"
 
@@ -69,24 +68,12 @@ class StationsInterface
   def self.info
     Interface.stations.each do |station|
       puts "Станция: #{station.name}"
-      # station.get_trains do |train|
-      #   puts "\tПоезд: #{train.number}, тип: #{train.type}, прицеплено вагонов: #{train.carriages.size}"
-      #   Template.show_carriage(train)
-      # end
+
+      station.get_trains do |train|
+        puts 'Вызван блок'
+        puts "\tПоезд: #{train.number}, тип: #{train.type}, прицеплено вагонов: #{train.carriages.size}"
+        Template.show_carriage(train)
+      end
     end
   end
 end
-
-# def self.show_stations
-#   Interface.stations.each_with_index { |station, index| puts "\t#{index + 1} - #{station.name}" }
-# end
-
-# def self.info
-#   Interface.stations.each do |station|
-#     puts "Станция: #{station.name}"
-#     station.get_trains do |train|
-#       puts "\tПоезд: #{train.number}, тип: #{train.type}, прицеплено вагонов: #{train.carriages.size}"
-#       Template.show_carriage(train)
-#     end
-#   end
-# end
