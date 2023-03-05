@@ -9,3 +9,12 @@ Metrics/ClassLength:
 
 Metrics/AbcSize:
   Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/ClassVars:
+  Enabled: false

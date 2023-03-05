@@ -5,6 +5,7 @@ require_relative 'passenger_carriage'
 require_relative 'carriage_interface'
 
 class TrainInterface
+  # rubocop:disable Metrics/CyclomaticComplexity
   def self.menu(train)
     return if train.nil?
 
@@ -38,7 +39,7 @@ class TrainInterface
         break
       when 1
         puts '--> Назначить маршрут поезду'
-        set_route
+        route
       when 2
         puts '--> Операции с вагонами'
         CarriageInterface.menu(@@train)
@@ -56,7 +57,7 @@ class TrainInterface
         puts "\t#{@@train.speed}"
       when 7
         puts '--> Задать скорость поезду'
-        set_speed
+        speed
       when 8
         puts '--> Остановить поезд'
         @@train.stop
@@ -68,7 +69,9 @@ class TrainInterface
     end
   end
 
-  def self.set_route
+  # rubocop:enable  Metrics/CyclomaticComplexity
+
+  def self.route
     RoutesInterface.show_routes
 
     begin
@@ -77,7 +80,7 @@ class TrainInterface
       route = Interface.routes[gets.chomp.to_i - 1]
       raise ArgumentError, 'Маршрута с таким номером не существует!' if route.nil?
 
-      @@train.set_route(route)
+      @@train.route(route)
       puts "Поезду #{@@train} назначен маршрут #{route}"
     rescue ArgumentError => e
       puts "! Ошибка: #{e.message}"
@@ -103,7 +106,7 @@ class TrainInterface
     puts "\tПоезд прибыл на странцию: #{@@train.current_station.name}"
   end
 
-  def self.set_speed
+  def self.speed
     puts 'Введите скорость:'
     print '>> '
     @@train.speed = gets.chomp.to_i

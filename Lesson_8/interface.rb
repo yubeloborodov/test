@@ -6,9 +6,9 @@ require_relative 'trains_interface'
 require_relative 'mocks'
 
 class Interface
-  @@trains = []
-  @@routes = []
-  @@stations = []
+  @trains = []
+  @routes = []
+  @stations = []
 
   def init
     puts '< Консольный симулятор управления ЖД станцией >'
@@ -48,15 +48,15 @@ class Interface
     end
   end
 
-  def self.stations
-    @@stations
+  class << self
+    attr_reader :stations
   end
 
-  def self.routes
-    @@routes
+  class << self
+    attr_reader :routes
   end
 
-  def self.trains
-    @@trains
+  class << self
+    attr_reader :trains
   end
 end

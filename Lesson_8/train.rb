@@ -5,11 +5,14 @@ require_relative 'instance_counter'
 class Train
   include InstanceCounter
 
-  attr_reader :carriages, :number, :speed, :type, :station_position
-  attr_accessor :current_station # возвращать / задать
+  attr_accessor :speed
+  attr_reader :carriages, :number, :type, :station_position
+  attr_writer :current_station # задать
 
   NUMBER_FORMAT = /^[а-яa-z0-9]{3}-?[а-яa-z0-9]{2}$/i.freeze
+  # rubocop:disable Layout/LineLength
   ERROR = 'Допустимый формат: три буквы или цифры в любом порядке, необязательный дефис (может быть, а может нет) и еще 2 буквы или цифры после дефиса'
+  # rubocop:enable Layout/LineLength
 
   @@trains = []
 
@@ -58,7 +61,7 @@ class Train
   end
 
   # Может принимать маршрут следования (объект класса Route)
-  def set_route(route)
+  def route(route)
     @route = route
     @station_position = 0
 
@@ -91,7 +94,7 @@ class Train
   end
 
   # Написать метод, который принимает блок и проходит по всем вагонам поезда, передавая каждый объект вагона в блок
-  def get_carriages
+  def carriages_info
     @carriages.each_with_index { |carriage, index| yield(carriage, index + 1) } if block_given?
   end
 end

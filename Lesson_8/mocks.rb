@@ -24,7 +24,7 @@ class Mocks
     # Создаем грузовой поезд
     cargo_train = CargoTrain.new('car-11', 1)
     Interface.trains << cargo_train
-    Interface.trains.last.set_route(Interface.routes[0])
+    Interface.trains.last.route(Interface.routes[0])
 
     # Цепляем вагоны к грузовому поезду
     1.upto(4) do |i|
@@ -35,7 +35,7 @@ class Mocks
     # Создаем пассажирский поезд поезд
     passenger_train = PassengerTrain.new('pas-11', 2)
     Interface.trains << passenger_train
-    Interface.trains.last.set_route(Interface.routes[1])
+    Interface.trains.last.route(Interface.routes[1])
 
     # Цепляем вагоны к пассажирскому поезду
     2.times do

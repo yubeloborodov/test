@@ -55,10 +55,6 @@ class CarriageInterface
     return puts '! Остановите сначала поезд' if @@train.speed.positive?
 
     begin
-      puts 'Введите номер вагона:'
-      print '>> '
-      number = gets.chomp.to_i
-
       puts 'Выберите тип вагона:'
       puts '1 - Грузовой'
       puts '2 - Пассажирский'

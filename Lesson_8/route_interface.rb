@@ -6,7 +6,7 @@ class RouteInterface
   def self.menu(route)
     return if route.nil?
 
-    @@route = route
+    @route = route
 
     loop do
       puts 'Введите цифру - выберите действие:'
@@ -26,7 +26,7 @@ class RouteInterface
         break
       when 1
         puts '--> Список станций на маршруте'
-        info(@@route)
+        info(@route)
       when 2
         puts '--> Добавить станцию на маршрут'
         add_station
@@ -51,16 +51,16 @@ class RouteInterface
     select(
       'Введите порядковый номер станции для добавления её в маршрут:',
       Interface.stations
-    ) { |station| @@route.add_station(station) }
+    ) { |station| @route.add_station(station) }
   end
 
   def self.delete_station
-    info(@@route)
+    info(@route)
 
     select(
       'Введите порядковый номер промежуточной станции для её удаления из маршрута:',
-      @@route.stations
-    ) { |station| @@route.delete_station(station) }
+      @route.stations
+    ) { |station| @route.delete_station(station) }
   end
 
   # Неявно принимает &block

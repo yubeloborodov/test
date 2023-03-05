@@ -58,9 +58,6 @@ class TrainsInterface
   rescue RegexpError => e
     puts "! Ошибка: #{e.message}"
     retry
-  rescue TypeError => e
-    puts "! Ошибка: #{e.message}"
-    retry
   end
 
   def self.list
