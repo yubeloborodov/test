@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'stations_interface'
 require_relative 'routes_interface'
 require_relative 'trains_interface'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'cargo_carriage'
 require_relative 'passenger_carriage'
 require_relative 'template'
@@ -12,7 +14,7 @@ class CarriageInterface
       puts 'Введите цифру - выберите действие:'
       puts '1 - Прицепить вагон к поезду'
 
-      if train.carriages.size > 0
+      if train.carriages.size.positive?
         puts '2 - Отцепить вагон от поезда'
         puts '3 - Заполнить вагон'
         puts '4 - Вывести все вагоны поезда'
@@ -50,7 +52,7 @@ class CarriageInterface
   end
 
   def self.add_carriage
-    return puts '! Остановите сначала поезд' if @@train.speed > 0
+    return puts '! Остановите сначала поезд' if @@train.speed.positive?
 
     begin
       puts 'Введите номер вагона:'
@@ -83,9 +85,10 @@ class CarriageInterface
         retry
       end
 
-      if type == 1
+      case type
+      when 1
         input_carriage_block.call('Введите объем грузового вагона:', CargoCarriage)
-      elsif type == 2
+      when 2
         input_carriage_block.call('Введите кол-во мест в пассажирском вагоне:', PassengerCarriage)
       else
         raise TypeError, 'Нет такого типа вагонов'
@@ -99,7 +102,7 @@ class CarriageInterface
   end
 
   def self.select
-    return puts '! Остановите сначала поезд' if @@train.speed > 0
+    return puts '! Остановите сначала поезд' if @@train.speed.positive?
 
     Template.show_carriage(@@train)
 

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require_relative 'instance_counter'
 
 class Station
   include InstanceCounter
 
-  NAME_FORMAT = /[A-Я][a-я]*/
+  NAME_FORMAT = /[A-Я][a-я]*/.freeze
 
   attr_reader :name, :trains
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Template
   def self.show_carriage(train)
     train.get_carriages do |carriage, i|

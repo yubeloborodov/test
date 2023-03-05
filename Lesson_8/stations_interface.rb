@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require_relative 'station'
 
 class StationsInterface
-  STATION_NAME_FORMAT = /^ст.\s[A-Я][a-я]*\s\d/ # ст. Начальная 1
+  STATION_NAME_FORMAT = /^ст.\s[A-Я][a-я]*\s\d/.freeze # ст. Начальная 1
 
   def self.menu
     loop do
@@ -12,7 +14,7 @@ class StationsInterface
       puts 'Введите цифру - выберите действие:'
       puts '1 - Создать станцию'
 
-      if Interface.stations.size > 0
+      if Interface.stations.size.positive?
         puts '2 - Список всех станций'
         puts '3 - Список поездов на станции'
       end

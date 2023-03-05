@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'interface'
 
 class RouteInterface
@@ -61,7 +63,8 @@ class RouteInterface
     ) { |station| @@route.delete_station(station) }
   end
 
-  def self.select(message, obj) # Неявно принимает &block
+  # Неявно принимает &block
+  def self.select(message, obj)
     puts message
     print '>> '
     index = gets.chomp.to_i

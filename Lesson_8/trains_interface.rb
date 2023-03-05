@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'cargo_train'
 require_relative 'passenger_train'
 require_relative 'train_interface'
@@ -8,7 +10,7 @@ class TrainsInterface
     loop do
       puts 'Введите цифру - выберите действие:'
       puts '1 - Создать поезд'
-      puts '2 - Выбрать поезд, перейти к операциям с ним' if Interface.trains.size > 0
+      puts '2 - Выбрать поезд, перейти к операциям с ним' if Interface.trains.size.positive?
       puts '0 - Вернуться в главное меню'
       print '>> '
 
@@ -45,9 +47,10 @@ class TrainsInterface
     print '>> '
     type = gets.chomp.to_i
 
-    if type == 1
+    case type
+    when 1
       Interface.trains << CargoTrain.new(number, TYPES[type])
-    elsif type == 2
+    when 2
       Interface.trains << PassengerTrain.new(number, TYPES[type])
     else
       raise TypeError, 'Нет такого типа поезда'

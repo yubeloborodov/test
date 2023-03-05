@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'route'
 require_relative 'route_interface'
 require_relative 'interface'
@@ -11,7 +13,7 @@ class RoutesInterface
       puts 'Введите цифру - выберите действие:'
       puts '1 - Создать маршрут'
 
-      if Interface.routes.size > 0
+      if Interface.routes.size.positive?
         puts '2 - Список всех маршрутов'
         puts '3 - Выбрать маршрут, перейти к операциям с ним'
       end
@@ -44,7 +46,8 @@ class RoutesInterface
     end
   end
 
-  def self.select_station(message) # не явно принимает &block
+  # не явно принимает &block
+  def self.select_station(message)
     puts message
     print '>> '
     index = gets.chomp.to_i

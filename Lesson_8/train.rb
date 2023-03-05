@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'instance_counter'
 
 class Train
@@ -6,7 +8,7 @@ class Train
   attr_reader :carriages, :number, :speed, :type, :station_position
   attr_accessor :current_station # возвращать / задать
 
-  NUMBER_FORMAT = /^[а-яa-z0-9]{3}-?[а-яa-z0-9]{2}$/i
+  NUMBER_FORMAT = /^[а-яa-z0-9]{3}-?[а-яa-z0-9]{2}$/i.freeze
   ERROR = 'Допустимый формат: три буквы или цифры в любом порядке, необязательный дефис (может быть, а может нет) и еще 2 буквы или цифры после дефиса'
 
   @@trains = []
@@ -48,11 +50,11 @@ class Train
   end
 
   def add_carriage(carriage)
-    @carriages << carriage if @speed == 0
+    @carriages << carriage if @speed.zero?
   end
 
   def delete_carriage(index)
-    @carriages.delete_at(index) if @speed == 0
+    @carriages.delete_at(index) if @speed.zero?
   end
 
   # Может принимать маршрут следования (объект класса Route)
@@ -68,7 +70,7 @@ class Train
   end
 
   def go_to_prev_station
-    if @station_position < 0 || @station_position == @route.stations.length
+    if @station_position.negative? || @station_position == @route.stations.length
       puts 'Поезд cтоит на крайней станции, движение назад запрещено!'
     else
       @station_position -= 1
