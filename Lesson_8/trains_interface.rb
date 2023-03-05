@@ -62,7 +62,9 @@ class TrainsInterface
 
   def self.list
     puts 'Список поездов:'
-    Interface.trains.each_with_index { |train, index| puts "#{index + 1} - Номер поезда: #{train.number} - Тип поезда: #{train.type} - Скорость поезда: #{train.speed}" }
+    Interface.trains.each_with_index do |train, index|
+      puts "#{index + 1} - Номер поезда: #{train.number} - Тип поезда: #{train.type} - Скорость поезда: #{train.speed}"
+    end
   end
 
   def self.select
